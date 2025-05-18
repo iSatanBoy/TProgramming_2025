@@ -1,22 +1,44 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
+import "fmt"
+
+type Character struct {
+	Class string
+	Level int
+	HP    int
+}
+
+func New(class string, level int, hp int) Character {
+	return Character{
+		Class: class,
+		Level: level,
+		HP:    hp,
+	}
+}
+
+func (c Character) Info() {
+	fmt.Println("Класс:", c.Class, "Уровень:", c.Level, "HP:", c.HP)
+}
+
+func (c *Character) LevelUp() {
+	c.Level++
+	c.HP += 10
+	fmt.Println("Новый уровень!")
+}
+
+func (c *Character) Damage(damage int) {
+	c.HP -= damage
+	if c.HP <= 0 {
+		fmt.Println("Ваш персонраж погиб")
+	} else {
+		fmt.Println("Персонаж получил", damage, "урона.")
+	}
+}
 
 func main() {
-	x := []float64{0.1, 0.35, 0.4, 0.55, 0.6}
-	for _, v := range x {
-		arcsin := math.Asin(v)
-		arccos := math.Acos(v)
-		y := math.Pow(arcsin*arcsin+math.Pow(arccos, 4), 3)
-		fmt.Println("При x =", v, "y =", y)
-	}
-	for i := 0.26; i <= 0.66; i += 0.08 {
-		arcsin := math.Asin(i)
-		arccos := math.Acos(i)
-		y := math.Pow(arcsin*arcsin+math.Pow(arccos, 4), 3)
-		fmt.Println("При x =", i, "y =", y)
-	}
+	hero := New("Маг", 1, 100)
+	hero.Info()
+	hero.LevelUp()
+	hero.Damage(10)
+	hero.Info()
 }
